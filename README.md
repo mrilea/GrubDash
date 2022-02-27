@@ -5,7 +5,7 @@ Backend development for a food ordering and delivery website.
 
 ### Home Page:
 
-![home page](screenshots/homepage.png)
+![home page](screenshots/homepage.jpg)
 
 GrubDash is a mock food delivery website.
 
