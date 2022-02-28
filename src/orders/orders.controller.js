@@ -104,9 +104,8 @@ function hasStatusProperty(req, res, next) {
   if (orderStatus === "delivered") {
     return next({ staus: 400, message: "A delivered order cannot be changed" });
   } else if (
-    (status && status === "pending") ||
-    status === "preparing" ||
-    status === "out-for-delivery"
+    status &&
+    ["pending", "preparing", "out-for-delivery", "delivered"].includes(status)
   ) {
     res.locals.status = status;
     return next();
@@ -132,7 +131,10 @@ function orderPending(req, res, next) {
   if (res.locals.order.status === "pending") {
     return next();
   }
-  next({status: 400, message: 'An order cannot be deleted unless it is pending'});
+  next({
+    status: 400,
+    message: "An order cannot be deleted unless it is pending",
+  });
 }
 
 function destroy(req, res, next) {
