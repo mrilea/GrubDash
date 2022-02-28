@@ -22,15 +22,11 @@ function hasNameProperty(req, res, next) {
 function hasDescriptionProperty(req, res, next) {
   const { data: { description } = {} } = req.body;
 
-  if (
-    description &&
-    description.length > 0 &&
-    typeof description === "string"
-  ) {
-    res.locals.description = description;
-    return next();
+  if (!description && typeof description !== "string") {
+    return next({ status: 400, message: "Dish must include a description" });
   }
-  next({ status: 400, message: "Dish must include a description" });
+  res.locals.description = description;
+  next();
 }
 
 function hasPriceProperty(req, res, next) {
