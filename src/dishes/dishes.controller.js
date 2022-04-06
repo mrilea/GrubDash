@@ -22,7 +22,7 @@ function hasNameProperty(req, res, next) {
 function hasDescriptionProperty(req, res, next) {
   const { data: { description } = {} } = req.body;
 
-  if (!description && typeof description !== "string") {
+  if (!description || typeof description !== "string") {
     return next({ status: 400, message: "Dish must include a description" });
   }
   res.locals.description = description;
@@ -50,7 +50,7 @@ function hasImageUrl(req, res, next) {
     res.locals.image_url = image_url;
     return next();
   }
-  next({ status: 400, message: "Dish must include a image_url" });
+  next({ status: 400, message: "Dish must include an image_url" });
 }
 
 function create(req, res, next) {

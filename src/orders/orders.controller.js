@@ -101,12 +101,10 @@ function bodyIdMatchesRouteId(req, res, next) {
 function hasStatusProperty(req, res, next) {
   const { data: { status } = {} } = req.body;
   const orderStatus = res.locals.order.status;
+  const statusCheck = ["pending", "preparing", "out-for-delivery", "delivered"];
   if (orderStatus === "delivered") {
     return next({ staus: 400, message: "A delivered order cannot be changed" });
-  } else if (
-    status &&
-    ["pending", "preparing", "out-for-delivery", "delivered"].includes(status)
-  ) {
+  } else if (status && statusCheck.includes(status)) {
     res.locals.status = status;
     return next();
   }
@@ -139,7 +137,7 @@ function orderPending(req, res, next) {
 
 function destroy(req, res, next) {
   const index = orders.findIndex((order) => order.id === res.locals.order.id);
-  if (index > -1) {
+  if (index >= 0) {
     orders.splice(index, 1);
   }
   res.sendStatus(204);
